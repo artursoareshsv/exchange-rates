@@ -4,6 +4,9 @@ import RobotoRegular from './assets/fonts/Roboto-Regular.ttf';
 export const theme = {
 	primary: '#7D9D9C',
 	darkNeutral: '#191A19',
+	mediumNeutral: '#B2B2B2',
+	lightNeutral: '#EAEAEA',
+	white: '#FFFFFF',
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -14,7 +17,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Roboto';
-    color: ${theme.darkNeutral}
+    color: ${theme.darkNeutral};
+    background-color: ${theme.lightNeutral};
   }
 `;
 
