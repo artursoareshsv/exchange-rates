@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import { useCallback, useEffect, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
 import { Card, Row } from './components/styled';
 import { TextInput } from './components/TextInput';
 import { convertCurrency, getCurrencies } from './providers/exchange-rates';
 import { Currency } from './types/currency';
 import { FormData } from './types/formData';
+import { debounce } from './util/debounce';
 
 function App() {
 	const [formData, setFormData] = useState<Partial<FormData>>({
@@ -22,12 +22,19 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		const { baseCurrency, targetCurrency, amount } = formData;
-
-		if (baseCurrency && targetCurrency && amount) {
-			convertCurrency(baseCurrency, targetCurrency, amount).then(setConvertedValue);
-		}
+		convertValue(formData);
 	}, [formData]);
+
+	const convertValue = useCallback(
+		debounce((value: Partial<FormData>) => {
+			const { baseCurrency, targetCurrency, amount } = value;
+
+			if (baseCurrency && targetCurrency && amount) {
+				convertCurrency(baseCurrency, targetCurrency, amount).then(setConvertedValue);
+			}
+		}, 350),
+		[]
+	);
 
 	const handleUpdateForm = (value: Partial<FormData>): void => {
 		setFormData((previous) => ({ ...previous, ...value }));

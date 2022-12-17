@@ -1,5 +1,5 @@
 export interface Conversion {
-	date: Date;
+	date: string;
 	info: Info;
 	query: Query;
 	result: number;
