@@ -13,6 +13,7 @@ function App() {
 		baseCurrency: '',
 		targetCurrency: '',
 	});
+
 	const [currencies, setCurrencies] = useState<Currency[]>([]);
 
 	useEffect(() => {
@@ -29,24 +30,25 @@ function App() {
 
 	return (
 		<Card>
-			<TextInput label='Amount' name='amount' value={formData?.amount} onChange={(value) => handleUpdateForm({ amount: value })} />
-
 			<Row>
 				<CurrencySelect
 					label='Base currency'
 					name='baseCurrency'
 					options={currencies}
 					value={formData.baseCurrency}
-					onChange={(value) => handleUpdateForm({ baseCurrency: value })}
+					onChange={handleUpdateForm}
 				/>
+
 				<CurrencySelect
 					label='Target currency'
 					name='targetCurrency'
 					options={currencies}
 					value={formData.targetCurrency}
-					onChange={(value) => handleUpdateForm({ targetCurrency: value })}
+					onChange={handleUpdateForm}
 				/>
 			</Row>
+
+			<TextInput label='Amount' name='amount' value={formData?.amount} onChange={handleUpdateForm} />
 
 			<p>1.000 USD = 73,13 BRL</p>
 		</Card>

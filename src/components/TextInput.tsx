@@ -1,17 +1,11 @@
+import { Input } from '../types/input';
 import { InputGroup } from './styled';
 
-type TextInputProps = {
-	label: string;
-	name: string;
-	value: string | undefined;
-	onChange: (value: string) => void;
-};
-
-export function TextInput({ label, name, value, onChange }: TextInputProps) {
+export function TextInput({ label, name, value, onChange }: Input) {
 	return (
 		<InputGroup>
 			<label htmlFor={name}>{label}</label>
-			<input type='text' name={name} value={value} onChange={(event) => onChange(event.target.value)} />
+			<input type='text' name={name} value={value} onChange={(event) => onChange({ [name]: event.target.value })} />
 		</InputGroup>
 	);
 }
