@@ -3,7 +3,7 @@ import './App.css';
 import { CurrencySelect } from './components/CurrencySelect';
 import { Card, Row } from './components/styled';
 import { TextInput } from './components/TextInput';
-import { getCurrencies } from './providers/exchange-rates';
+import { convertCurrency, getCurrencies } from './providers/exchange-rates';
 import { Currency } from './types/currency';
 import { FormData } from './types/formData';
 
@@ -15,13 +15,18 @@ function App() {
 	});
 
 	const [currencies, setCurrencies] = useState<Currency[]>([]);
+	const [convertedValue, setConvertedValue] = useState<number | undefined>(undefined);
 
 	useEffect(() => {
-		getCurrencies().then((currencies) => setCurrencies(currencies));
+		getCurrencies().then(setCurrencies);
 	}, []);
 
 	useEffect(() => {
-		console.log(formData);
+		const { baseCurrency, targetCurrency, amount } = formData;
+
+		if (baseCurrency && targetCurrency && amount) {
+			convertCurrency(baseCurrency, targetCurrency, amount).then(setConvertedValue);
+		}
 	}, [formData]);
 
 	const handleUpdateForm = (value: Partial<FormData>): void => {
@@ -50,7 +55,11 @@ function App() {
 
 			<TextInput label='Amount' name='amount' value={formData?.amount} onChange={handleUpdateForm} />
 
-			<p>1.000 USD = 73,13 BRL</p>
+			{convertedValue && (
+				<>
+					{formData.amount} {formData.baseCurrency} = {convertedValue} {formData.targetCurrency}
+				</>
+			)}
 		</Card>
 	);
 }
