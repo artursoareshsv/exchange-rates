@@ -1,24 +1,51 @@
-import { useState } from 'react';
-import Select, { SingleValue } from 'react-select';
+import { useEffect, useState } from 'react';
 import './App.css';
-import { CurrencyInput } from './components/CurrencyInput';
 import { CurrencySelect } from './components/CurrencySelect';
 import { Card, Row } from './components/styled';
+import { TextInput } from './components/TextInput';
+import { getCurrencies } from './providers/exchange-rates';
+import { Currency } from './types/currency';
+import { FormData } from './types/formData';
 
 function App() {
-	const options = [
-		{ value: 'chocolate', label: 'Chocolate' },
-		{ value: 'strawberry', label: 'Strawberry' },
-		{ value: 'vanilla', label: 'Vanilla' },
-	];
+	const [formData, setFormData] = useState<Partial<FormData>>({
+		amount: '',
+		baseCurrency: '',
+		targetCurrency: '',
+	});
+	const [currencies, setCurrencies] = useState<Currency[]>([]);
+
+	useEffect(() => {
+		getCurrencies().then((currencies) => setCurrencies(currencies));
+	}, []);
+
+	useEffect(() => {
+		console.log(formData);
+	}, [formData]);
+
+	const handleUpdateForm = (value: Partial<FormData>): void => {
+		setFormData((previous) => ({ ...previous, ...value }));
+	};
 
 	return (
 		<Card>
-			<CurrencyInput label='Amount' name='amount' />
+			<TextInput label='Amount' name='amount' value={formData?.amount} onChange={(value) => handleUpdateForm({ amount: value })} />
 
 			<Row>
-				<CurrencySelect label='Base currency' name='baseCurrency' options={options} />
-				<CurrencySelect label='Target currency' name='targetCurrency' options={options} />
+				<CurrencySelect
+					label='Base currency'
+					name='baseCurrency'
+					options={currencies}
+					value={formData.baseCurrency}
+					onChange={(value) => handleUpdateForm({ baseCurrency: value })}
+				/>
+				<CurrencySelect
+					label='Target currency'
+					name='targetCurrency'
+					options={currencies}
+					value={formData.targetCurrency}
+					onChange={(value) => handleUpdateForm({ targetCurrency: value })}
+				/>
 			</Row>
 
 			<p>1.000 USD = 73,13 BRL</p>

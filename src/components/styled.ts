@@ -1,6 +1,7 @@
 import Select from 'react-select';
 import styled from 'styled-components';
 import { theme } from '../GlobalStyle';
+import { Currency } from '../types/currency';
 
 const borderRadius = '0.35rem';
 
@@ -34,7 +35,7 @@ export const InputGroup = styled.div`
 	}
 `;
 
-export const CustomSelect = styled(Select)`
+export const CustomSelect = styled(Select<Currency>)`
 	.select__control,
 	.select__control--is-focused {
 		border: none;
