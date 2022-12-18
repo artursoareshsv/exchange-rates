@@ -73,11 +73,35 @@ export const CardTitle = styled.h2`
 export const Row = styled.div`
 	display: flex;
 	flex-direction: row;
-	gap: 0.2rem;
+	gap: 1rem;
 
 	& > div {
 		width: 100%;
 	}
+`;
+
+export const Column = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+`;
+
+export const ConversionTextGroup = styled.div`
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+
+	font-size: 1.1rem;
+`;
+
+export const AdditionalInfo = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+
+	font-size: 0.85rem;
+	color: ${theme.darkNeutral};
+	filter: brightness(135%);
 `;
 
 export const PrimaryText = styled.span`

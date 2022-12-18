@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
 import { RateChart } from './components/RateChart';
-import { Card, CardTitle, PrimaryText, Row } from './components/styled';
+import { AdditionalInfo, Card, CardTitle, Column, ConversionTextGroup, PrimaryText, Row } from './components/styled';
 import { TextInput } from './components/TextInput';
 import { convertCurrency, getCurrencies, getTimeSeries } from './providers/exchange-rates';
 import { Conversion } from './types/conversion';
@@ -97,23 +97,35 @@ function App() {
 				/>
 			</Row>
 
-			<TextInput label='Amount' name='amount' value={formData?.amount} onChange={handleUpdateForm} />
+			<Row>
+				<TextInput label='Amount' name='amount' value={formData?.amount} onChange={handleUpdateForm} />
+			</Row>
 
 			{convertedValue && (
-				<>
-					<Row>
+				<Column>
+					<ConversionTextGroup>
 						<span>Converted amount:</span>
+
 						<span>
 							{formData.amount} {formData.baseCurrency} =
 						</span>
+
 						<PrimaryText>
 							{convertedValue.result} {formData.targetCurrency}
 						</PrimaryText>
-					</Row>
+					</ConversionTextGroup>
 
-					<RateChart timeSeries={timeSeries} />
-				</>
+					<AdditionalInfo>
+						<span>
+							Exchange rate of {convertedValue.info.rate} {formData.targetCurrency}
+						</span>
+
+						<span>Exchange rate date: {convertedValue.info.timestamp}</span>
+					</AdditionalInfo>
+				</Column>
 			)}
+
+			{timeSeries && <RateChart timeSeries={timeSeries} />}
 		</Card>
 	);
 }

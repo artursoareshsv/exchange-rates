@@ -4,7 +4,7 @@ import RobotoRegular from './assets/fonts/Roboto-Regular.ttf';
 export const theme = {
 	primary: '#37A65E',
 	chartBackgroundColor: 'rgba(172, 242, 202, 0.5)',
-	darkNeutral: '#2f4f4f',
+	darkNeutral: '#5d7079',
 	background: '#F2F2F2',
 	white: '#FFFFFF',
 };
