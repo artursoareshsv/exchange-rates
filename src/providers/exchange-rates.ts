@@ -1,6 +1,8 @@
 import { Conversion } from '../types/conversion';
 import { Currency } from '../types/currency';
 import { Symbols } from '../types/symbols';
+import { TimeSeries } from '../types/timeSeries';
+import { toDateString } from '../util/toDateString';
 
 const getHeaders = (): Headers => {
 	const headers = new Headers();
@@ -40,4 +42,21 @@ export const convertCurrency = async (baseCurrency: string, targetCurrency: stri
 		console.log(error);
 		return undefined;
 	}
+};
+
+export const getTimeSeries = async (startDate: Date, endDate: Date, baseCurrency: string, targetCurrency: string): Promise<TimeSeries> => {
+	const response = await fetch(
+		`${import.meta.env.VITE_API_URL}/timeseries?start_date=${toDateString(startDate)}&end_date=${toDateString(
+			endDate
+		)}&base=${baseCurrency}&symbols=${targetCurrency}`,
+		{
+			method: 'GET',
+			redirect: 'follow',
+			headers: getHeaders(),
+		}
+	);
+	const data: TimeSeries = await response.json();
+	data.target = targetCurrency;
+
+	return data;
 };

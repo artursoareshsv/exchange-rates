@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
+import { RateChart } from './components/RateChart';
 import { Card, Row } from './components/styled';
 import { TextInput } from './components/TextInput';
-import { convertCurrency, getCurrencies } from './providers/exchange-rates';
+import { convertCurrency, getCurrencies, getTimeSeries } from './providers/exchange-rates';
 import { Currency } from './types/currency';
 import { FormData } from './types/formData';
+import { TimeSeries } from './types/timeSeries';
 import { debounce } from './util/debounce';
+import { toDateString } from './util/toDateString';
 
 function App() {
 	const [formData, setFormData] = useState<Partial<FormData>>({
@@ -16,6 +19,7 @@ function App() {
 
 	const [currencies, setCurrencies] = useState<Currency[]>([]);
 	const [convertedValue, setConvertedValue] = useState<number | undefined>(undefined);
+	const [timeSeries, setTimeSeries] = useState<TimeSeries | undefined>(undefined);
 
 	useEffect(() => {
 		getCurrencies().then(setCurrencies);
@@ -23,6 +27,11 @@ function App() {
 
 	useEffect(() => {
 		convertValue(formData);
+
+		const today = new Date();
+		const priorDate = new Date(new Date().setDate(today.getDate() - 30));
+
+		getTimeSeries(priorDate, today, formData.baseCurrency || '', formData.targetCurrency || '').then(setTimeSeries);
 	}, [formData]);
 
 	const convertValue = useCallback(
@@ -65,6 +74,7 @@ function App() {
 			{convertedValue && (
 				<>
 					{formData.amount} {formData.baseCurrency} = {convertedValue} {formData.targetCurrency}
+					<RateChart timeSeries={timeSeries} />
 				</>
 			)}
 		</Card>

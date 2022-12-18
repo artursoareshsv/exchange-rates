@@ -10,7 +10,7 @@ export const InputGroup = styled.div`
 	flex-direction: column;
 	gap: 0.1rem;
 
-	padding: 0.5rem;
+	padding: 0.2rem 0.5rem;
 
 	background-color: white;
 	border: 0.1rem solid ${theme.darkNeutral};
