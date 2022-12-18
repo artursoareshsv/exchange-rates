@@ -27,11 +27,7 @@ function App() {
 
 	useEffect(() => {
 		convertValue(formData);
-
-		const today = new Date();
-		const priorDate = new Date(new Date().setDate(today.getDate() - 30));
-
-		getTimeSeries(priorDate, today, formData.baseCurrency || '', formData.targetCurrency || '').then(setTimeSeries);
+		getRates(formData);
 	}, [formData]);
 
 	const convertValue = useCallback(
@@ -41,6 +37,16 @@ function App() {
 			if (baseCurrency && targetCurrency && amount) {
 				convertCurrency(baseCurrency, targetCurrency, amount).then(setConvertedValue);
 			}
+		}, 350),
+		[]
+	);
+
+	const getRates = useCallback(
+		debounce((value: Partial<FormData>) => {
+			const today = new Date();
+			const priorDate = new Date(new Date().setDate(today.getDate() - 30));
+
+			getTimeSeries(priorDate, today, formData.baseCurrency || '', formData.targetCurrency || '').then(setTimeSeries);
 		}, 350),
 		[]
 	);
