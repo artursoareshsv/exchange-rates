@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
 import { RateChart } from './components/RateChart';
-import { Card, Row } from './components/styled';
+import { Card, CardTitle, PrimaryText, Row } from './components/styled';
 import { TextInput } from './components/TextInput';
 import { convertCurrency, getCurrencies, getTimeSeries } from './providers/exchange-rates';
 import { Conversion } from './types/conversion';
@@ -77,6 +77,8 @@ function App() {
 
 	return (
 		<Card>
+			<CardTitle>Exchange rate</CardTitle>
+
 			<Row>
 				<CurrencySelect
 					label='Base currency'
@@ -99,7 +101,16 @@ function App() {
 
 			{convertedValue && (
 				<>
-					{formData.amount} {formData.baseCurrency} = {convertedValue.result} {formData.targetCurrency}
+					<Row>
+						<span>Converted amount:</span>
+						<span>
+							{formData.amount} {formData.baseCurrency} =
+						</span>
+						<PrimaryText>
+							{convertedValue.result} {formData.targetCurrency}
+						</PrimaryText>
+					</Row>
+
 					<RateChart timeSeries={timeSeries} />
 				</>
 			)}

@@ -2,10 +2,10 @@ import { createGlobalStyle } from 'styled-components';
 import RobotoRegular from './assets/fonts/Roboto-Regular.ttf';
 
 export const theme = {
-	primary: '#7D9D9C',
+	primary: '#37A65E',
+	chartBackgroundColor: 'rgba(172, 242, 202, 0.5)',
 	darkNeutral: '#2f4f4f',
-	mediumNeutral: '#B2B2B2',
-	background: '#EAEAEA',
+	background: '#F2F2F2',
 	white: '#FFFFFF',
 };
 

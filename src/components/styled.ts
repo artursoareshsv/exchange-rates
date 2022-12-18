@@ -57,13 +57,17 @@ export const Card = styled.div`
 	flex-direction: column;
 	gap: 1rem;
 
-	max-width: 500px;
+	max-width: 700px;
 	margin: 0 auto;
 	padding: 2rem;
 
-	border: 2px solid ${theme.mediumNeutral};
 	border-radius: ${borderRadius};
 	background-color: ${theme.white};
+`;
+
+export const CardTitle = styled.h2`
+	color: ${theme.primary};
+	filter: brightness(70%);
 `;
 
 export const Row = styled.div`
@@ -74,4 +78,12 @@ export const Row = styled.div`
 	& > div {
 		width: 100%;
 	}
+`;
+
+export const PrimaryText = styled.span`
+	color: ${theme.primary};
+`;
+
+export const ChartWrapper = styled.div`
+	line-height: 0.25rem;
 `;

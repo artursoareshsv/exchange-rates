@@ -1,6 +1,8 @@
 import { CategoryScale, Chart, Filler, Legend, LinearScale, LineElement, plugins, PointElement, Title, Tooltip } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { theme } from '../GlobalStyle';
 import { TimeSeries } from '../types/timeSeries';
+import { ChartWrapper } from './styled';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Filler, Legend);
 
@@ -36,13 +38,20 @@ export function RateChart({ timeSeries }: RateChartProps) {
 		datasets: [
 			{
 				fill: true,
-				label: timeSeries.target,
+				label: `${timeSeries.base}: 1 = ${timeSeries.target}`,
 				data: rates,
-				borderColor: 'rgb(53, 162, 235)',
-				backgroundColor: 'rgba(53, 162, 235, 0.5)',
+				borderColor: theme.primary,
+				backgroundColor: theme.chartBackgroundColor,
 			},
 		],
 	};
 
-	return <Line options={options} data={data} />;
+	return (
+		<ChartWrapper>
+			<h3>Historical rates</h3>
+			<h5>past 30 days</h5>
+
+			<Line options={options} data={data} />
+		</ChartWrapper>
+	);
 }
