@@ -1,4 +1,5 @@
 import { CategoryScale, Chart, Filler, Legend, LinearScale, LineElement, plugins, PointElement, Title, Tooltip } from 'chart.js';
+import format from 'date-fns/format';
 import { Line } from 'react-chartjs-2';
 import { theme } from '../GlobalStyle';
 import { TimeSeries } from '../types/timeSeries';
@@ -34,7 +35,7 @@ export function RateChart({ timeSeries }: RateChartProps) {
 	});
 
 	const data = {
-		labels,
+		labels: labels.map((date) => format(new Date(date), 'MMM dd, yyyy')),
 		datasets: [
 			{
 				fill: true,

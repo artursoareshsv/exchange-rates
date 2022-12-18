@@ -1,3 +1,5 @@
+import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import { useCallback, useEffect, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
 import { RateChart } from './components/RateChart';
@@ -117,10 +119,10 @@ function App() {
 
 					<AdditionalInfo>
 						<span>
-							Exchange rate of {convertedValue.info.rate} {formData.targetCurrency}
+							Exchange rate: {convertedValue.info.rate} {formData.targetCurrency}
 						</span>
 
-						<span>Exchange rate date: {convertedValue.info.timestamp}</span>
+						<span>Exchange rate date: {format(fromUnixTime(convertedValue.info.timestamp), 'MMM dd, yyyy HH:mm')}</span>
 					</AdditionalInfo>
 				</Column>
 			)}

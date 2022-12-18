@@ -1,8 +1,8 @@
+import format from 'date-fns/format';
 import { Conversion } from '../types/conversion';
 import { Currency } from '../types/currency';
 import { Symbols } from '../types/symbols';
 import { TimeSeries } from '../types/timeSeries';
-import { toDateString } from '../util/toDateString';
 
 const getHeaders = (): Headers => {
 	const headers = new Headers();
@@ -52,8 +52,9 @@ export const getTimeSeries = async (
 ): Promise<TimeSeries | undefined> => {
 	try {
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/timeseries?start_date=${toDateString(startDate)}&end_date=${toDateString(
-				endDate
+			`${import.meta.env.VITE_API_URL}/timeseries?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(
+				endDate,
+				'yyyy-MM-dd'
 			)}&base=${baseCurrency}&symbols=${targetCurrency}`,
 			{
 				method: 'GET',
