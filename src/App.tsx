@@ -61,7 +61,7 @@ function App() {
 		debounce((value: Partial<FormData>) => {
 			const { baseCurrency, targetCurrency, amount } = value;
 
-			if (baseCurrency !== convertedValue?.query.from && targetCurrency !== convertedValue?.query.to && amount) {
+			if ((baseCurrency !== convertedValue?.query.from || targetCurrency !== convertedValue?.query.to) && amount) {
 				const today = new Date();
 				const priorDate = new Date(new Date().setDate(today.getDate() - 30));
 
