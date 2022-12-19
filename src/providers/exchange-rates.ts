@@ -6,14 +6,16 @@ import { TimeSeries } from '../types/timeSeries';
 
 const getHeaders = (): Headers => {
 	const headers = new Headers();
-	headers.append('apiKey', import.meta.env.VITE_API_KEY);
+	headers.append('apiKey', process.env.REACT_APP_API_KEY || '');
 
 	return headers;
 };
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 export const getCurrencies = async (): Promise<Currency[]> => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_API_URL}/symbols`, { method: 'GET', redirect: 'follow', headers: getHeaders() });
+		const response = await fetch(`${apiUrl}/symbols`, { method: 'GET', redirect: 'follow', headers: getHeaders() });
 		const data: Symbols = await response.json();
 
 		const currency: Currency[] = Object.keys(data.symbols).map((key) => ({
@@ -30,7 +32,7 @@ export const getCurrencies = async (): Promise<Currency[]> => {
 
 export const convertCurrency = async (baseCurrency: string, targetCurrency: string, amount: string): Promise<Conversion | undefined> => {
 	try {
-		const response = await fetch(`${import.meta.env.VITE_API_URL}/convert?to=${targetCurrency}&from=${baseCurrency}&amount=${amount}`, {
+		const response = await fetch(`${apiUrl}/convert?to=${targetCurrency}&from=${baseCurrency}&amount=${amount}`, {
 			method: 'GET',
 			redirect: 'follow',
 			headers: getHeaders(),
@@ -52,7 +54,7 @@ export const getTimeSeries = async (
 ): Promise<TimeSeries | undefined> => {
 	try {
 		const response = await fetch(
-			`${import.meta.env.VITE_API_URL}/timeseries?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(
+			`${apiUrl}/timeseries?start_date=${format(startDate, 'yyyy-MM-dd')}&end_date=${format(
 				endDate,
 				'yyyy-MM-dd'
 			)}&base=${baseCurrency}&symbols=${targetCurrency}`,

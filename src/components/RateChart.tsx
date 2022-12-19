@@ -1,4 +1,4 @@
-import { CategoryScale, Chart, Filler, Legend, LinearScale, LineElement, plugins, PointElement, Title, Tooltip } from 'chart.js';
+import { CategoryScale, Chart, Filler, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
 import format from 'date-fns/format';
 import { Line } from 'react-chartjs-2';
 import { theme } from '../GlobalStyle';

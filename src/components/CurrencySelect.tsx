@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { SingleValue } from 'react-select';
 import { Currency } from '../types/currency';
 import { Input } from '../types/input';
@@ -16,9 +15,9 @@ export function CurrencySelect({ label, name, options, value, onChange }: Curren
 			<CustomSelect
 				classNamePrefix='select'
 				options={options}
-				getOptionLabel={(option) => `${option.symbol} - ${option.name}`}
-				getOptionValue={(option) => option.symbol}
-				onChange={(value) => onChange({ [name]: value?.symbol })}
+				getOptionLabel={(option: Currency) => `${option.symbol} - ${option.name}`}
+				getOptionValue={(option: Currency) => option.symbol}
+				onChange={(value: SingleValue<Currency>) => onChange({ [name]: value?.symbol })}
 			/>
 		</InputGroup>
 	);

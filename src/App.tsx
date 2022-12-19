@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
 import { RateChart } from './components/RateChart';
 import { AdditionalInfo, Card, CardTitle, Column, ConversionTextGroup, PrimaryText, Row } from './components/styled';
@@ -23,6 +23,53 @@ function App() {
 	const [convertedValue, setConvertedValue] = useState<Conversion | undefined>(undefined);
 	const [timeSeries, setTimeSeries] = useState<TimeSeries | undefined>(undefined);
 
+	const convertValue = useMemo(
+		() =>
+			debounce((value: Partial<FormData>) => {
+				const { baseCurrency, targetCurrency, amount } = value;
+				const isFormFilled = baseCurrency && targetCurrency && amount;
+
+				if (isFormFilled) {
+					if (convertedValue && baseCurrency === convertedValue.query.from && targetCurrency === convertedValue.query.to && amount) {
+						setConvertedValue((previous) => {
+							if (previous) {
+								const conversion = previous.info.rate * parseFloat(amount);
+
+								return {
+									...previous,
+									...{ result: parseFloat(conversion.toFixed(5)) },
+								};
+							}
+
+							return previous;
+						});
+					} else {
+						convertCurrency(baseCurrency, targetCurrency, amount).then(setConvertedValue);
+					}
+				}
+			}, 350),
+		[convertedValue]
+	);
+
+	const getRates = useMemo(
+		() =>
+			debounce((value: Partial<FormData>) => {
+				const { baseCurrency, targetCurrency, amount } = value;
+
+				if ((baseCurrency !== convertedValue?.query.from || targetCurrency !== convertedValue?.query.to) && amount) {
+					const today = new Date();
+					const priorDate = new Date(new Date().setDate(today.getDate() - 30));
+
+					getTimeSeries(priorDate, today, baseCurrency || '', targetCurrency || '').then(setTimeSeries);
+				}
+			}, 350),
+		[convertedValue]
+	);
+
+	const handleUpdateForm = (value: Partial<FormData>): void => {
+		setFormData((previous) => ({ ...previous, ...value }));
+	};
+
 	useEffect(() => {
 		getCurrencies().then(setCurrencies);
 	}, []);
@@ -30,52 +77,7 @@ function App() {
 	useEffect(() => {
 		convertValue(formData);
 		getRates(formData);
-	}, [formData]);
-
-	const convertValue = useCallback(
-		debounce((value: Partial<FormData>) => {
-			const { baseCurrency, targetCurrency, amount } = value;
-			const isFormFilled = baseCurrency && targetCurrency && amount;
-
-			if (isFormFilled) {
-				if (convertedValue && baseCurrency === convertedValue.query.from && targetCurrency === convertedValue.query.to && amount) {
-					setConvertedValue((previous) => {
-						if (previous) {
-							const conversion = previous.info.rate * parseFloat(amount);
-
-							return {
-								...previous,
-								...{ result: parseFloat(conversion.toFixed(5)) },
-							};
-						}
-
-						return previous;
-					});
-				} else {
-					convertCurrency(baseCurrency, targetCurrency, amount).then(setConvertedValue);
-				}
-			}
-		}, 350),
-		[convertedValue]
-	);
-
-	const getRates = useCallback(
-		debounce((value: Partial<FormData>) => {
-			const { baseCurrency, targetCurrency, amount } = value;
-
-			if ((baseCurrency !== convertedValue?.query.from || targetCurrency !== convertedValue?.query.to) && amount) {
-				const today = new Date();
-				const priorDate = new Date(new Date().setDate(today.getDate() - 30));
-
-				getTimeSeries(priorDate, today, baseCurrency || '', targetCurrency || '').then(setTimeSeries);
-			}
-		}, 350),
-		[convertedValue]
-	);
-
-	const handleUpdateForm = (value: Partial<FormData>): void => {
-		setFormData((previous) => ({ ...previous, ...value }));
-	};
+	}, [formData, convertValue, getRates]);
 
 	return (
 		<Card>

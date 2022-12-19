@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import RobotoRegular from './assets/fonts/Roboto-Regular.ttf';
 
 export const theme = {
 	primary: '#37A65E',
@@ -10,11 +9,6 @@ export const theme = {
 };
 
 const GlobalStyle = createGlobalStyle`
-  @font-face {
-    font-family: 'Roboto';
-    src: url(${RobotoRegular}) format('truetype');
-  }
-
   body {
     font-family: 'Roboto';
     font-size: 1rem;
