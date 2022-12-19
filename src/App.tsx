@@ -131,7 +131,7 @@ export default function App() {
 				</Column>
 			)}
 
-			{/* {timeSeries && <RateChart timeSeries={timeSeries} />} */}
+			{timeSeries && <RateChart timeSeries={timeSeries} />}
 		</Card>
 	);
 }
