@@ -14,6 +14,7 @@ export function CurrencySelect({ label, name, options, value, onChange }: Curren
 
 			<CustomSelect
 				classNamePrefix='select'
+				name={name}
 				options={options}
 				getOptionLabel={(option: Currency) => `${option.symbol} - ${option.name}`}
 				getOptionValue={(option: Currency) => option.symbol}

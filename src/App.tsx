@@ -12,7 +12,7 @@ import { FormData } from './types/formData';
 import { TimeSeries } from './types/timeSeries';
 import { debounce } from './util/debounce';
 
-function App() {
+export default function App() {
 	const [formData, setFormData] = useState<Partial<FormData>>({
 		amount: '',
 		baseCurrency: '',
@@ -55,8 +55,9 @@ function App() {
 		() =>
 			debounce((value: Partial<FormData>) => {
 				const { baseCurrency, targetCurrency, amount } = value;
+				const isFormFilled = baseCurrency && targetCurrency && amount;
 
-				if ((baseCurrency !== convertedValue?.query.from || targetCurrency !== convertedValue?.query.to) && amount) {
+				if (isFormFilled && (baseCurrency !== convertedValue?.query.from || targetCurrency !== convertedValue?.query.to) && amount) {
 					const today = new Date();
 					const priorDate = new Date(new Date().setDate(today.getDate() - 30));
 
@@ -133,5 +134,3 @@ function App() {
 		</Card>
 	);
 }
-
-export default App;
