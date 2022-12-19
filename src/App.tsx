@@ -78,7 +78,6 @@ export default function App() {
 	useEffect(() => {
 		convertValue(formData);
 		getRates(formData);
-		console.log(formData);
 	}, [formData, convertValue, getRates]);
 
 	return (
