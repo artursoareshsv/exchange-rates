@@ -1,6 +1,6 @@
 import format from 'date-fns/format';
 import fromUnixTime from 'date-fns/fromUnixTime';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CurrencySelect } from './components/CurrencySelect';
 import { RateChart } from './components/RateChart';
 import { AdditionalInfo, Card, CardTitle, Column, ConversionTextGroup, PrimaryText, Row } from './components/styled';
