@@ -106,7 +106,7 @@ function App() {
 			</Row>
 
 			{convertedValue && (
-				<Column>
+				<Column role='contentinfo'>
 					<ConversionTextGroup>
 						<span>Converted amount:</span>
 

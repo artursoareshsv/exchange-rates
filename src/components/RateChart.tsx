@@ -48,7 +48,7 @@ export function RateChart({ timeSeries }: RateChartProps) {
 	};
 
 	return (
-		<ChartWrapper>
+		<ChartWrapper role='figure'>
 			<h3>Historical rates</h3>
 			<h5>past 30 days</h5>
 
