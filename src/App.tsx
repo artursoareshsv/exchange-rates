@@ -78,6 +78,7 @@ export default function App() {
 	useEffect(() => {
 		convertValue(formData);
 		getRates(formData);
+		console.log(formData);
 	}, [formData, convertValue, getRates]);
 
 	return (
@@ -130,7 +131,7 @@ export default function App() {
 				</Column>
 			)}
 
-			{timeSeries && <RateChart timeSeries={timeSeries} />}
+			{/* {timeSeries && <RateChart timeSeries={timeSeries} />} */}
 		</Card>
 	);
 }
